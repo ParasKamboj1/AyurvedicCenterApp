@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591552321986",
+    "project_id": "ayurvediccenter-94979",
+    "storage_bucket": "ayurvediccenter-94979.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591552321986:android:df96530ea48fb6ae579e5b",
+        "android_client_info": {
+          "package_name": "com.example.projectsynopisis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZYEs6jzOeuCMqzDNKBwB8qX6rNcQKxmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
