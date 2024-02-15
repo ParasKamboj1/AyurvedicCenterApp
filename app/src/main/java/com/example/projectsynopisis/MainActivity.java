@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
+    TextView usernames;
     ImageView googlemap,mainimage;
     Button button1,button2,button3;
     int currentImageIndex = 0;
@@ -29,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        usernames = findViewById(R.id.username);
         auth = FirebaseAuth.getInstance();
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("USERNAME");
+        usernames.setText(username);
 
         handler = new Handler();
         imageUpdater = new Runnable() {
@@ -69,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(auth.getCurrentUser()==null){
-            Intent intent = new Intent(MainActivity.this,login.class);
-            startActivity(intent);
-            finish();
-        }
+//        if(auth.getCurrentUser()==null){
+//            Intent i = new Intent(MainActivity.this,login.class);
+//            startActivity(i);
+//            finish();
+//        }
 
         googlemap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     void updateImage(){
         currentImageIndex = (currentImageIndex + 1) % imageResources.length;
         mainimage.setImageResource(imageResources[currentImageIndex]);
+
     }
 
 }

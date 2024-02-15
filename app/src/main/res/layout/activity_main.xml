@@ -215,12 +215,11 @@
         app:layout_constraintVertical_bias="0.824" />
 
     <TextView
-        android:id="@+id/textView564"
+        android:id="@+id/username"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_25sdp"
         android:fontFamily="@font/alatsi_regular"
         android:gravity="center_vertical"
-        android:text="Paras Kamboj"
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -348,12 +347,12 @@
         android:id="@+id/imageView15"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:layout_marginEnd="312dp"
         android:src="@drawable/atoi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.039"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
+
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04" />
 

@@ -21,6 +21,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class login extends AppCompatActivity {
 
@@ -96,10 +102,11 @@ public class login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Intent intent = new Intent(login.this,MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(login.this, "Login Successfull!", Toast.LENGTH_SHORT).show();
-                                finish();
+                                FirebaseUser user = auth.getCurrentUser();
+                                if(user!=null){
+                                    String userId = user.getUid();
+                                    fetchUsername(userId);
+                                }
                             }
                             else{
                                 Toast.makeText(login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -117,6 +124,28 @@ public class login extends AppCompatActivity {
                 Intent intent = new Intent(login.this,signin.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+    }
+    void fetchUsername(String userId){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String username = snapshot.child("username").getValue(String.class);
+                    if(username!=null && !username.isEmpty()) {
+                        Intent inten = new Intent(login.this, MainActivity.class);
+                        inten.putExtra("USERNAME", username);
+                        startActivity(inten);
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(login.this, "Failed to read username!", Toast.LENGTH_SHORT).show();
             }
         });
     }
