@@ -348,6 +348,7 @@
         android:id="@+id/imageView15"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
+        android:layout_marginEnd="312dp"
         android:src="@drawable/atoi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

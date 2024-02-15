@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     ImageView googlemap,mainimage;
     Button button1,button2,button3;
+    int currentImageIndex = 0;
+    Handler handler;
+    Runnable imageUpdater;
+    int[]imageResources = {R.drawable.im1,R.drawable.secondimage,R.drawable.thirdimage};
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
+
+        handler = new Handler();
+        imageUpdater = new Runnable() {
+            @Override
+            public void run() {
+                updateImage();
+                handler.postDelayed(this,2000);
+            }
+        };
+        handler.postDelayed(imageUpdater,2000);
+
 
         googlemap = findViewById(R.id.googlemap);
         button1 = findViewById(R.id.button1);
@@ -69,4 +85,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    void updateImage(){
+        currentImageIndex = (currentImageIndex + 1) % imageResources.length;
+        mainimage.setImageResource(imageResources[currentImageIndex]);
+    }
+
 }
