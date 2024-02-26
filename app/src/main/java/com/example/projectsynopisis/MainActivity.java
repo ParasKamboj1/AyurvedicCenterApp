@@ -85,10 +85,17 @@ public class MainActivity extends AppCompatActivity {
         googlemap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri location = Uri.parse("geo:0,0?q=Nearest+Ayurvedic+hospitals");
-                Intent intent = new Intent(Intent.ACTION_VIEW,location);
-                intent.setPackage("com.google.android.apps.maps");
+                // By using google Map API
+                Intent intent2 = new Intent(MainActivity.this, mapshown.class);
                 startActivity(intent);
+
+
+
+                // Using google map url
+//                Uri location = Uri.parse("geo:0,0?q=Nearest+Ayurvedic+hospitals");
+//                Intent intent = new Intent(Intent.ACTION_VIEW,location);
+//                intent.setPackage("com.google.android.apps.maps");
+//                startActivity(intent);
             }
         });
     }
