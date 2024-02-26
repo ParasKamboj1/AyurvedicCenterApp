@@ -12,9 +12,12 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +29,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final int SPEECH_REQUEST_CODE = 1;
     FirebaseAuth auth;
-    TextView usernames;
+    TextView usernames,language;
+    Spinner spinnerDropDown;
     SpeechRecognizer speechRecognizer;
     EditText editTextSearch;
     ImageView btnSpeech;
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Handler handler;
     Runnable imageUpdater;
     int[]imageResources = {R.drawable.im1,R.drawable.secondimage,R.drawable.thirdimage};
+    String languageCode = "en";
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editTextSearch = findViewById(R.id.writehere);
         btnSpeech = findViewById(R.id.imageView7);
+        language = findViewById(R.id.textView397);
         usernames = findViewById(R.id.username);
+        spinnerDropDown = findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence>adapter = ArrayAdapter.createFromResource(this,R.array.dropdown_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDropDown.setAdapter(adapter);
+        spinnerDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedItem = getResources().getStringArray(R.array.dropdown_items)[position];
+                language.setText(selectedItem);
+                if(selectedItem.equals("Hindi")){
+                    languageCode = "hi";
+                }
+                else if(selectedItem.equals("Punjabi")){
+                    languageCode = "pa";
+                }
+                else if(selectedItem.equals("Marathi")){
+                    languageCode = "mr";
+                }
+                else if(selectedItem.equals("Tamil")){
+                    languageCode = "ta";
+                }
+                else{
+                    languageCode = "en";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         auth = FirebaseAuth.getInstance();
 
 
@@ -129,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
 
     void startSpeechRecognition(){
         if (isSpeechRecognitionAvailable()) {
-            String languageCode = "hi";
+
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
             // If you want to use only single language that's english.
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
 //             If you want to use different languages.
-//            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,languageCode);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,languageCode);
 
 
             startActivityForResult(intent, SPEECH_REQUEST_CODE);
