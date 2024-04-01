@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
@@ -25,6 +26,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final int SPEECH_REQUEST_CODE = 1;
@@ -33,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerDropDown;
     SpeechRecognizer speechRecognizer;
     EditText editTextSearch;
-    ImageView btnSpeech;
+    ImageView btnSpeech,call;
     ImageView googlemap,mainimage;
     Button button1,button2,button3;
     int currentImageIndex = 0;
     Handler handler;
+    String API = "kaggle datasets download -d raghavdecoded/ayurvedic-formulations-and-their-indications";
+    String API1 = "https://www.kaggle.com/datasets/raghavdecoded/ayurvedic-formulations-and-their-indications";
     Runnable imageUpdater;
     int[]imageResources = {R.drawable.im1,R.drawable.secondimage,R.drawable.thirdimage};
     String languageCode = "en";
@@ -51,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         language = findViewById(R.id.textView397);
         usernames = findViewById(R.id.username);
         spinnerDropDown = findViewById(R.id.spinner);
+        call = findViewById(R.id.call);
+
+
+
+
+
+
 
         ArrayAdapter<CharSequence>adapter = ArrayAdapter.createFromResource(this,R.array.dropdown_items, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -88,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
 
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,phoneCalls.class);
+                startActivity(intent);
+            }
+        });
+
         btnSpeech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,7 +178,9 @@ public class MainActivity extends AppCompatActivity {
                 // Using google map url
                 Uri location = Uri.parse("geo:0,0?q=Nearest+Ayurvedic+hospitals");
                 Intent intent = new Intent(Intent.ACTION_VIEW,location);
-                intent.setPackage("com.google.android.apps.maps");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+                    intent.setPackage("com.google.android.apps.maps");
+                }
                 startActivity(intent);
             }
         });
